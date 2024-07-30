@@ -30,17 +30,30 @@ public enum ScanError: Error {
 /// it will report the exact code type that was found.
 @available(macCatalyst 14.0, *)
 public struct ScanResult {
-    /// The contents of the code.
-    public let string: String
-
-    /// The type of code that was matched.
-    public let type: AVMetadataObject.ObjectType
+    public let texts: [Text]
     
     /// The image of the code that was matched
     public let image: UIImage?
-  
-    /// The corner coordinates of the scanned code.
-    public let corners: [CGPoint]
+    
+    public struct Text {
+        /// The contents of the code.
+        public let string: String
+
+        /// The type of code that was matched.
+        public let type: AVMetadataObject.ObjectType
+      
+        /// The corner coordinates of the scanned code.
+        public let corners: [CGPoint]
+    }
+}
+
+extension ScanResult.Text: Hashable, Codable { }
+extension AVMetadataObject.ObjectType: Hashable, Codable { }
+extension CGPoint: Codable, Hashable {
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+    }
 }
 
 /// The operating mode for CodeScannerView.
