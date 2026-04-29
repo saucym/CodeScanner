@@ -26,11 +26,22 @@ public struct QRScanner: View {
                 }
             }
         }
-        .overlay(alignment: .bottomTrailing) {
-            PhotosPicker(selection: $selectedItem, matching: .images) {
-                Image(systemName: "photo.on.rectangle")
-                    .font(.system(size: 26))
-                    .padding(60)
+        .overlay(alignment: .bottom) {
+            HStack {
+                Button {
+                    presentationMode.wrappedValue.dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.system(size: 26))
+                        .padding(60)
+                }
+                Spacer()
+                
+                PhotosPicker(selection: $selectedItem, matching: .images) {
+                    Image(systemName: "photo.on.rectangle")
+                        .font(.system(size: 26))
+                        .padding(60)
+                }
             }
         }
         .ignoresSafeArea()
